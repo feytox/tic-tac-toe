@@ -3,14 +3,19 @@ const ZERO = 'O';
 const EMPTY = ' ';
 
 const container = document.getElementById('fieldWrapper');
-const rowSize = 3, colSize = 3;
 const map = Array(9);
+
+let step = 0;
+let isGameEnd = false;
 
 startGame();
 addResetListener();
 
 function startGame () {
     renderGrid(3);
+    step = 0;
+    isGameEnd = false;
+    map.fill(EMPTY);
 }
 
 function renderGrid (dimension) {
@@ -109,12 +114,25 @@ function checkWin(row, col) {
 }
 
 function cellClickHandler (row, col) {
-    console.log(`Clicked on cell: ${row}, ${col}`);
-    
+    if (isGameEnd)
+        return;
 
-    /* Пользоваться методом для размещения символа в клетке так:
-        renderSymbolInCell(ZERO, row, col);
-     */
+    const index = row * 3 + col;
+    const current = map[index];
+    const isCross = step % 2 === 0;
+    if (current !== EMPTY)
+        return;
+
+    const symbol = isCross ? CROSS : ZERO;
+
+    map[index] = symbol;
+    step++;
+    renderSymbolInCell(symbol, row, col);
+
+    if (step === 9) {
+        alert("Победила дружба")
+        isGameEnd = true;
+    }
 }
 
 function renderSymbolInCell (symbol, row, col, color = '#333') {
@@ -135,7 +153,7 @@ function addResetListener () {
 }
 
 function resetClickHandler () {
-    console.log('reset!');
+    startGame();
 }
 
 
