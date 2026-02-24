@@ -3,6 +3,7 @@ const ZERO = 'O';
 const EMPTY = ' ';
 
 const container = document.getElementById('fieldWrapper');
+const map = Array(9);
 
 startGame();
 addResetListener();
