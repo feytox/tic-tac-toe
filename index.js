@@ -3,6 +3,8 @@ const ZERO = 'O';
 const EMPTY = ' ';
 
 const container = document.getElementById('fieldWrapper');
+const rowSize = 3;
+const colSize = 3;
 const map = Array(9);
 
 let step = 0;
@@ -46,7 +48,7 @@ function checkRow(symbol, row, col) {
         if (map[(row + 1) * colSize + col] === symbol && map[(row + 1) * colSize + col] === symbol)
             return [(row - 1) * colSize + col, row * colSize + col, (row + 1) * colSize + col]
     }
-    return (-1, -1, -1)
+    return null;
 }
 
 function checkCol(symbol, row, col) {
@@ -62,7 +64,7 @@ function checkCol(symbol, row, col) {
         if (map[row * colSize + col + 1] === symbol && map[row * colSize + col + 2] === symbol)
             return [row * colSize + col, row * colSize + col + 1, row * colSize + col + 2]
     }
-    return (-1, -1, -1)
+    return null;
 }
 
 function checkDial(symbol, row, col) {
@@ -92,7 +94,7 @@ function checkDial(symbol, row, col) {
             return [row * colSize + col, (row - 1) * colSize + col + 1, (row - 2) * colSize + col + 2]
     }
 
-    return [-1, -1, -1]
+    return null;
 }
 
 function checkWin(row, col) {
@@ -104,11 +106,11 @@ function checkWin(row, col) {
     }
 
     let cur = checkRow(symbol, row, col);
-    if (cur === (-1, -1, -1)) 
+    if (cur === null) 
         cur = checkCol(symbol, row, col);
-    if (cur === (-1, -1, -1)) 
-        cur = checkDiag(symbol, row, col);
-    if (cur === (-1, -1, -1))
+    if (cur === null) 
+        cur = checkDial(symbol, row, col);
+    if (cur === null)
         cur = null;
     return cur;
 }
@@ -126,8 +128,21 @@ function cellClickHandler (row, col) {
     const symbol = isCross ? CROSS : ZERO;
 
     map[index] = symbol;
-    step++;
     renderSymbolInCell(symbol, row, col);
+
+    const winPositions = checkWin(row, col);
+    alert(winPositions);
+    if (winPositions) {
+        for (pos of winPositions) {
+            const posRow = Math.trunc(pos / 3);
+            const posCol = pos % 3;
+            renderSymbolInCell(symbol, posRow, posCol, "#FF0000")
+        }
+        isGameEnd = true;
+        return;
+    }
+
+    step++;
 
     if (step === 9) {
         alert("Победила дружба")
