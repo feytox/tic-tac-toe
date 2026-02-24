@@ -6,13 +6,15 @@ const container = document.getElementById('fieldWrapper');
 const map = Array(9);
 
 let step = 0;
+let isGameEnd = false;
 
 startGame();
 addResetListener();
 
 function startGame () {
     renderGrid(3);
-    isCross = true;
+    step = 0;
+    isGameEnd = false;
     map.fill(EMPTY);
 }
 
@@ -32,6 +34,9 @@ function renderGrid (dimension) {
 }
 
 function cellClickHandler (row, col) {
+    if (isGameEnd)
+        return;
+
     const index = row * 3 + col;
     const current = map[index];
     const isCross = step % 2 === 0;
