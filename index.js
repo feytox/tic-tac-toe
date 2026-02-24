@@ -48,6 +48,11 @@ function cellClickHandler (row, col) {
     map[index] = symbol;
     step++;
     renderSymbolInCell(symbol, row, col);
+
+    if (step === 9) {
+        alert("Победила дружба")
+        isGameEnd = true;
+    }
 }
 
 function renderSymbolInCell (symbol, row, col, color = '#333') {
