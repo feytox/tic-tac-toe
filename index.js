@@ -131,7 +131,6 @@ function cellClickHandler (row, col) {
     renderSymbolInCell(symbol, row, col);
 
     const winPositions = checkWin(row, col);
-    alert(winPositions);
     if (winPositions) {
         for (pos of winPositions) {
             const posRow = Math.trunc(pos / 3);
