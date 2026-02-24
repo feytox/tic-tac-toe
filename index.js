@@ -5,7 +5,7 @@ const EMPTY = ' ';
 const container = document.getElementById('fieldWrapper');
 const map = Array(9);
 
-let isCross = true;
+let step = 0;
 
 startGame();
 addResetListener();
@@ -34,13 +34,14 @@ function renderGrid (dimension) {
 function cellClickHandler (row, col) {
     const index = row * 3 + col;
     const current = map[index];
+    const isCross = step % 2 === 0;
     if (current !== EMPTY)
         return;
 
     const symbol = isCross ? CROSS : ZERO;
 
     map[index] = symbol;
-    isCross = !isCross;
+    step++;
     renderSymbolInCell(symbol, row, col);
 }
 
