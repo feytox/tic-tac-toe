@@ -137,6 +137,13 @@ function cellClickHandler (row, col) {
             const posCol = pos % 3;
             renderSymbolInCell(symbol, posRow, posCol, "#FF0000")
         }
+        const winSymbol = map[winPositions[0]];
+        if (winSymbol === ZERO) {
+            alert("Победил нолик")
+        } else {
+            alert("Победил крестик")
+        }
+
         isGameEnd = true;
         return;
     }
