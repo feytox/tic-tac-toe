@@ -5,11 +5,15 @@ const EMPTY = ' ';
 const container = document.getElementById('fieldWrapper');
 const map = Array(9);
 
+let isCross = true;
+
 startGame();
 addResetListener();
 
 function startGame () {
     renderGrid(3);
+    isCross = true;
+    map.fill(EMPTY);
 }
 
 function renderGrid (dimension) {
@@ -28,13 +32,16 @@ function renderGrid (dimension) {
 }
 
 function cellClickHandler (row, col) {
-    // Пиши код тут
-    console.log(`Clicked on cell: ${row}, ${col}`);
+    const index = row * 3 + col;
+    const current = map[index];
+    if (current !== EMPTY)
+        return;
 
+    const symbol = isCross ? CROSS : ZERO;
 
-    /* Пользоваться методом для размещения символа в клетке так:
-        renderSymbolInCell(ZERO, row, col);
-     */
+    map[index] = symbol;
+    isCross = !isCross;
+    renderSymbolInCell(symbol, row, col);
 }
 
 function renderSymbolInCell (symbol, row, col, color = '#333') {
@@ -55,7 +62,7 @@ function addResetListener () {
 }
 
 function resetClickHandler () {
-    console.log('reset!');
+    startGame();
 }
 
 
